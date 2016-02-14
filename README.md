@@ -13,8 +13,8 @@ Supported Platforms:
 * Windows 7 and greater with Nuke 9.0
 <br>
 <br>
-![Nuke Node Properties](https://ahuge.ca/img/Properties.png)
-![Nuke Node Graph example for node](https://ahuge.ca/img/Node_Graph.png)
+![Nuke Node Properties](/Images/Properties.png)
+![Nuke Node Graph example for node](/Images/Node_Graph.PNG)
 <br>
 <br>
 
