@@ -8,7 +8,10 @@ A plugin for the Foundry's Nuke. It allows manipulation of channels via regular 
 RemoveChannels allows you to delete or isolate channels by the result of a C++ regex_search.
 
 Supported Platforms:
+    These are the only tested platforms so far.
 * Windows 7 and greater with Nuke 9.0
+<br>
+<br>
 
 Some help links for regex:
 
