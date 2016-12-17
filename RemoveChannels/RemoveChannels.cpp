@@ -1,6 +1,6 @@
 // RemoveChannels.cpp
 // Alex Hughes (2016)
-// Version 1.00
+// Version 1.01
 
 /* 
     Remove channels from the input. 
@@ -80,41 +80,47 @@ void RemoveChannels::_validate(bool for_real)
   this->copy_info(); // Get context of the channels that this node knows.
 
   ChannelMask inputChannels = this->input0().info().channels(); // Get all availible channels.
-  this->rgx.assign(this->_message); // Assign our text as a regular expression.
+  try {
+	  this->rgx.assign(this->_message); // Assign our text as a regular expression.
 
-  foreach(c, inputChannels)
-  {
-	const std::string channelName = getName(c);  // String name of the channel so we can go begin and end on it.
-	std::smatch match; // Our capture.
+	  foreach(c, inputChannels)
+	  {
+		const std::string channelName = getName(c);  // String name of the channel so we can go begin and end on it.
+		std::smatch match; // Our capture.
 
-	if (this->operation) { // Keep matching channels
+		if (this->operation) { // Keep matching channels
 
-		// Regex matching.
-		if (std::regex_search(channelName.begin(), channelName.end(), match, this->rgx))
-		{
-			this->info_.turn_on(c);   //? Tells that channel to turn on.
+			// Regex matching.
+			if (std::regex_search(channelName.begin(), channelName.end(), match, this->rgx))
+			{
+				this->info_.turn_on(c);   //? Tells that channel to turn on.
+			}
+
+			else
+			{
+				// Doesn't match
+				this->info_.turn_off(c);   //? Tells that channel to turn off.
+			}
 		}
+		else // Remove matching channels
+		{
+			// Regex matching.
+			if (std::regex_search(channelName.begin(), channelName.end(), match, this->rgx))
+			{
+				this->info_.turn_off(c);   //? Tells that channel to turn off.
+			}
 
-		else
-		{
-			// Doesn't match
-			this->info_.turn_off(c);   //? Tells that channel to turn off.
+			else
+			{
+				// Doesn't match
+				this->info_.turn_on(c);   //? Tells that channel to turn on.
+			}
 		}
-	}
-	else // Remove matching channels
-	{
-		// Regex matching.
-		if (std::regex_search(channelName.begin(), channelName.end(), match, this->rgx))
-		{
-			this->info_.turn_off(c);   //? Tells that channel to turn off.
-		}
-
-		else
-		{
-			// Doesn't match
-			this->info_.turn_on(c);   //? Tells that channel to turn on.
-		}
-	}
+	  }
+  }
+  catch (std::regex_error& e) {
+      // Syntax error in the regular expression
+	  this->error("Syntax error in the regular expression.");
   }
   this->set_out_channels(channels); //? Tells nuke what we changed.
 }
