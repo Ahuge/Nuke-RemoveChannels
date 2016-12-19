@@ -11,6 +11,8 @@ Supported Platforms:
     
     These are the only tested platforms so far.
 * Windows 7 and greater with Nuke 9.0
+* Windows 7 and greater with Nuke 10.0
+* Windows 7 and greater with Nuke 10.5
 <br>
 <br>
 ![Nuke Node Properties](/Images/Properties.png)
