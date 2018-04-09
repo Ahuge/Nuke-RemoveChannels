@@ -27,6 +27,7 @@ public:
   //! Default constructor.
   RemoveChannels (Node* node) : NoIop(node)
   {
+    this->_message = "\\\\w+";
     this->operation = 1;
   }
   
