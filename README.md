@@ -15,8 +15,10 @@ Supported Platforms:
 * Windows 7 and greater with Nuke 10.5
 <br>
 <br>
-![Nuke Node Properties](/Images/Properties.png)
-![Nuke Node Graph example for node](/Images/Node_Graph.PNG)
+
+![Nuke Node Properties](https://github.com/Ahuge/Nuke-RemoveChannels/raw/master/Images/Properties.png)  
+![Nuke Node Graph example for node](https://github.com/Ahuge/Nuke-RemoveChannels/raw/master/Images/Node_Graph.PNG)
+
 <br>
 <br>
 
