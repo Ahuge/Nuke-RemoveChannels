@@ -15,10 +15,13 @@
 #include "DDImage/NoIop.h"
 #include "DDImage/Knobs.h" // Here we have our UI elements:
 #include <regex>
-#include <iostream>
-#include <iomanip>
 
 using namespace DD::Image;
+
+static const char* const CLASS = "RemoveChannels";
+static const char* const HELP = ("Removes color channels from the image based "
+										             "on the regular expression provided.\n\n"
+										             "For a basic description of regular expressions, click this question mark.");
 
 // -------------------- Header -------------------- \\ 
 class RemoveChannels : public NoIop
@@ -36,22 +39,16 @@ public:
   virtual ~RemoveChannels () {}
  
   //! This function does all the work.
-  void _validate(bool);
+  void _validate(bool) override;
   //! Defines the knobs for this node.
-  virtual void knobs(Knob_Callback);
+  virtual void knobs(Knob_Callback) override;
   
   //! Return the name of the class.
   const char* Class() const { return CLASS; }
   const char* node_help() const { return HELP; }
+  static const Description description;
 
-private:
-
-  //! Information to the plug-in manager of DDNewImage/NUKE.
-  // static const Iop::Description description;
-  static Iop::Description description;
-  static const char* const CLASS;
-  static const char* const HELP;
-  
+private: 
   //! Information private for the node.
   ChannelSet channels;
   std::regex rgx;
@@ -59,14 +56,7 @@ private:
   int operation; // 0 = remove, 1 = keep
 };
 
-
-
 // -------------------- Implementation -------------------- \\ 
-const char* const RemoveChannels::CLASS = "RemoveChannels";
-const char* const RemoveChannels::HELP = ("Removes color channels from the image based "
-										  "on the regular expression provided.\n\n"
-										  "For a basic description of regular expressions, click this question mark.");
-
 
 static const char* const enums[] = {
   "remove", "keep", 0
@@ -150,4 +140,4 @@ static Iop* build(Node* node)
     // Build the node.
     return new RemoveChannels(node);
 }
-Iop::Description RemoveChannels::description(CLASS, "Channel/RemoveChannels", build);
+const Iop::Description RemoveChannels::description(CLASS, "Channel/RemoveChannels", build);
