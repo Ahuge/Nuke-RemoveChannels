@@ -26,3 +26,9 @@
 *.exe
 *.out
 *.app
+
+# build
+build
+
+# install
+install

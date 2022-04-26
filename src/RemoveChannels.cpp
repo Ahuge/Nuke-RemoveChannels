@@ -16,8 +16,12 @@
 #include "DDImage/Knobs.h" // Here we have our UI elements:
 #include <regex>
 
-
 using namespace DD::Image;
+
+static const char* const CLASS = "RemoveChannels";
+static const char* const HELP = ("Removes color channels from the image based "
+										             "on the regular expression provided.\n\n"
+										             "For a basic description of regular expressions, click this question mark.");
 
 // -------------------- Header -------------------- \\ 
 class RemoveChannels : public NoIop
@@ -27,7 +31,7 @@ public:
   //! Default constructor.
   RemoveChannels (Node* node) : NoIop(node)
   {
-    this->_message = "\\\\w+";
+    this->_message = "\\w+";
     this->operation = 1;
   }
   
@@ -35,22 +39,16 @@ public:
   virtual ~RemoveChannels () {}
  
   //! This function does all the work.
-  void _validate(bool);
+  void _validate(bool) override;
   //! Defines the knobs for this node.
-  virtual void knobs(Knob_Callback);
+  virtual void knobs(Knob_Callback) override;
   
   //! Return the name of the class.
   const char* Class() const { return CLASS; }
   const char* node_help() const { return HELP; }
+  static const Description description;
 
-private:
-
-  //! Information to the plug-in manager of DDNewImage/NUKE.
-  // static const Iop::Description description;
-  static Iop::Description description;
-  static const char* const CLASS;
-  static const char* const HELP;
-  
+private: 
   //! Information private for the node.
   ChannelSet channels;
   std::regex rgx;
@@ -58,13 +56,7 @@ private:
   int operation; // 0 = remove, 1 = keep
 };
 
-
-
 // -------------------- Implementation -------------------- \\ 
-const char* const RemoveChannels::CLASS = "RemoveChannels";
-const char* const RemoveChannels::HELP = ("Removes color channels from the image based "
-										  "on the regular expression provided.\n\n"
-										  "For a basic description of regular expressions, click this question mark.");
 
 static const char* const enums[] = {
   "remove", "keep", 0
@@ -82,10 +74,16 @@ void RemoveChannels::_validate(bool for_real)
 
   ChannelMask inputChannels = this->input0().info().channels(); // Get all availible channels.
   try {
-	  this->rgx.assign(this->_message); // Assign our text as a regular expression.
+      
+      if (knob("regular_expression")->get_text() != NULL) {
+          this->rgx.assign(knob("regular_expression")->get_text());
+      } else {
+          this->rgx.assign("");
+      }    
 
 	  foreach(c, inputChannels)
 	  {
+         
 		const std::string channelName = getName(c);  // String name of the channel so we can go begin and end on it.
 		std::smatch match; // Our capture.
 
@@ -96,7 +94,6 @@ void RemoveChannels::_validate(bool for_real)
 			{
 				this->info_.turn_on(c);   //? Tells that channel to turn on.
 			}
-
 			else
 			{
 				// Doesn't match
@@ -143,4 +140,4 @@ static Iop* build(Node* node)
     // Build the node.
     return new RemoveChannels(node);
 }
-Iop::Description RemoveChannels::description(CLASS, "Channel/RemoveChannels", build);
+const Iop::Description RemoveChannels::description(CLASS, "Channel/RemoveChannels", build);
