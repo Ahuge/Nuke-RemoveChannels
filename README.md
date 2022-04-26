@@ -1,4 +1,4 @@
-# Nuke9-RemoveChannels
+# Nuke-RemoveChannels
 A plugin for the Foundry's Nuke. It allows manipulation of channels via regular expressions.
 
     RemoveChannels is a bit of a working name but it is what this plugin will be called for now.
@@ -13,6 +13,7 @@ Supported Platforms:
 * Windows 7 and greater with Nuke 9.0
 * Windows 7 and greater with Nuke 10.0
 * Windows 7 and greater with Nuke 10.5
+* Windows 11 and greater with Nuke 12.2
 <br>
 <br>
 
