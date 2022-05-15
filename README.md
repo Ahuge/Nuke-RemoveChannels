@@ -86,6 +86,7 @@ We provide an install batch script to compile RemoveChannels for multiple versio
 creates the compiled plugins in the choosen install folder for every version. 
 The script can be executed running batchInstall.sh, you can then enter the Path to search for Nuke Versions e.g. /usr/local/ or C:/Program Files
 Optionally an install path can be entered aswell. The script then runs and compiles the plugins (as far as the dependencies like compilers can be found).
+You can run this script multiple times e.g. if you don't have all your Nuke installs in the same folder.
 
 ## Supported Platforms:
     
@@ -106,7 +107,7 @@ We added the sample nuke file from the screen shot above in the examples folder 
 ## Extra Information
 Some help links for regex:
 
-*    https://en.wikipedia.org/wiki/Regular_expression
-*    http://stackoverflow.com/questions/4736/learning-regular-expressions
-*    https://www.quora.com/Regular-Expressions-computing/What-are-the-best-resources-for-learning-RegEx
-*   https://www.quora.com/What-are-the-best-resources-for-learning-regular-expressions
+* https://en.wikipedia.org/wiki/Regular_expression
+* http://stackoverflow.com/questions/4736/learning-regular-expressions
+* https://www.quora.com/Regular-Expressions-computing/What-are-the-best-resources-for-learning-RegEx
+* https://www.quora.com/What-are-the-best-resources-for-learning-regular-expressions
