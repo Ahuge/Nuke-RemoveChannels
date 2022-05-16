@@ -23,7 +23,7 @@ static const char* const HELP = ("Removes color channels from the image based "
 										             "on the regular expression provided.\n\n"
 										             "For a basic description of regular expressions, click this question mark.");
 
-// -------------------- Header -------------------- \\ 
+// -------------------- Header -------------------- 
 class RemoveChannels : public NoIop
 {
 public:
@@ -56,7 +56,7 @@ private:
   int operation; // 0 = remove, 1 = keep
 };
 
-// -------------------- Implementation -------------------- \\ 
+// -------------------- Implementation --------------------
 
 static const char* const enums[] = {
   "remove", "keep", 0
@@ -75,7 +75,7 @@ void RemoveChannels::_validate(bool for_real)
   ChannelMask inputChannels = this->input0().info().channels(); // Get all availible channels.
   try {
       
-      if (knob("regular_expression")->get_text() != NULL) {
+      if (this->knob("regular_expression")->get_text() != NULL) {
           this->rgx.assign(knob("regular_expression")->get_text());
       } else {
           this->rgx.assign("");
@@ -87,31 +87,31 @@ void RemoveChannels::_validate(bool for_real)
 		const std::string channelName = getName(c);  // String name of the channel so we can go begin and end on it.
 		std::smatch match; // Our capture.
 
-		if (this->operation) { // Keep matching channels
+		if (operation) { // Keep matching channels
 
 			// Regex matching.
-			if (std::regex_search(channelName.begin(), channelName.end(), match, this->rgx))
+			if (std::regex_search(channelName.begin(), channelName.end(), match, rgx))
 			{
-				this->info_.turn_on(c);   //? Tells that channel to turn on.
+				info_.turn_on(c);   //? Tells that channel to turn on.
 			}
 			else
 			{
 				// Doesn't match
-				this->info_.turn_off(c);   //? Tells that channel to turn off.
+				info_.turn_off(c);   //? Tells that channel to turn off.
 			}
 		}
 		else // Remove matching channels
 		{
 			// Regex matching.
-			if (std::regex_search(channelName.begin(), channelName.end(), match, this->rgx))
+			if (std::regex_search(channelName.begin(), channelName.end(), match, rgx))
 			{
-				this->info_.turn_off(c);   //? Tells that channel to turn off.
+				info_.turn_off(c);   //? Tells that channel to turn off.
 			}
 
 			else
 			{
 				// Doesn't match
-				this->info_.turn_on(c);   //? Tells that channel to turn on.
+				info_.turn_on(c);   //? Tells that channel to turn on.
 			}
 		}
 	  }
