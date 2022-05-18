@@ -87,31 +87,31 @@ void RemoveChannels::_validate(bool for_real)
 		const std::string channelName = getName(c);  // String name of the channel so we can go begin and end on it.
 		std::smatch match; // Our capture.
 
-		if (operation) { // Keep matching channels
+		if (this->operation) { // Keep matching channels
 
 			// Regex matching.
 			if (std::regex_search(channelName.begin(), channelName.end(), match, rgx))
 			{
-				info_.turn_on(c);   //? Tells that channel to turn on.
+				this->info_.turn_on(c);   //? Tells that channel to turn on.
 			}
 			else
 			{
 				// Doesn't match
-				info_.turn_off(c);   //? Tells that channel to turn off.
+				this->info_.turn_off(c);   //? Tells that channel to turn off.
 			}
 		}
 		else // Remove matching channels
 		{
 			// Regex matching.
-			if (std::regex_search(channelName.begin(), channelName.end(), match, rgx))
+			if (std::regex_search(channelName.begin(), channelName.end(), match, this->rgx))
 			{
-				info_.turn_off(c);   //? Tells that channel to turn off.
+				this->info_.turn_off(c);   //? Tells that channel to turn off.
 			}
 
 			else
 			{
 				// Doesn't match
-				info_.turn_on(c);   //? Tells that channel to turn on.
+				this->info_.turn_on(c);   //? Tells that channel to turn on.
 			}
 		}
 	  }
