@@ -75,7 +75,7 @@ void RemoveChannels::_validate(bool for_real)
   ChannelMask inputChannels = this->input0().info().channels(); // Get all availible channels.
   try {
       
-      if (this->knob("regular_expression")->get_text() != NULL) {
+      if (knob("regular_expression")->get_text() != NULL) {
           this->rgx.assign(knob("regular_expression")->get_text());
       } else {
           this->rgx.assign("");
@@ -90,7 +90,7 @@ void RemoveChannels::_validate(bool for_real)
 		if (this->operation) { // Keep matching channels
 
 			// Regex matching.
-			if (std::regex_search(channelName.begin(), channelName.end(), match, rgx))
+			if (std::regex_search(channelName.begin(), channelName.end(), match, this->rgx))
 			{
 				this->info_.turn_on(c);   //? Tells that channel to turn on.
 			}
