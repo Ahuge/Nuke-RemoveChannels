@@ -23,6 +23,14 @@ static const char* const HELP = ("Removes color channels from the image based "
 										             "on the regular expression provided.\n\n"
 										             "For a basic description of regular expressions, click this question mark.");
 
+enum operation : int {
+    removeChannels=0, keepChannels=1
+};
+
+static const char* const labels[] = {
+  "remove", "keep", 0
+};
+
 // -------------------- Header -------------------- 
 class RemoveChannels : public NoIop
 {
@@ -32,7 +40,7 @@ public:
   RemoveChannels (Node* node) : NoIop(node)
   {
     this->_message = "\\w+";
-    this->operation = 1;
+    this->operation = keepChannels;
   }
   
   //! Virtual destructor.
@@ -53,18 +61,14 @@ private:
   ChannelSet channels;
   std::regex rgx;
   const char* _message;
-  int operation; // 0 = remove, 1 = keep
+  int operation; // based on enum operation, but int for callback function
 };
 
 // -------------------- Implementation --------------------
 
-static const char* const enums[] = {
-  "remove", "keep", 0
-};
-
 void RemoveChannels::_validate(bool for_real)
 {
-  if (!this->_message) // Fast return if you don't have anything in there.
+  if (this->_message == NULL) // Fast return if you don't have anything in there.
   {
 	  set_out_channels(Mask_None); // Tell Nuke we didn't touch anything.
 	  return;
@@ -74,8 +78,7 @@ void RemoveChannels::_validate(bool for_real)
 
   ChannelMask inputChannels = this->input0().info().channels(); // Get all availible channels.
   try {
-      
-      if (knob("regular_expression")->get_text() != NULL) {
+      if (knob("regular_expression")->get_text()) {
           this->rgx.assign(knob("regular_expression")->get_text());
       } else {
           this->rgx.assign("");
@@ -87,33 +90,17 @@ void RemoveChannels::_validate(bool for_real)
 		const std::string channelName = getName(c);  // String name of the channel so we can go begin and end on it.
 		std::smatch match; // Our capture.
 
-		if (this->operation) { // Keep matching channels
-
-			// Regex matching.
-			if (std::regex_search(channelName.begin(), channelName.end(), match, this->rgx))
-			{
-				this->info_.turn_on(c);   //? Tells that channel to turn on.
-			}
-			else
-			{
-				// Doesn't match
-				this->info_.turn_off(c);   //? Tells that channel to turn off.
-			}
-		}
-		else // Remove matching channels
-		{
-			// Regex matching.
-			if (std::regex_search(channelName.begin(), channelName.end(), match, this->rgx))
-			{
-				this->info_.turn_off(c);   //? Tells that channel to turn off.
-			}
-
-			else
-			{
-				// Doesn't match
-				this->info_.turn_on(c);   //? Tells that channel to turn on.
-			}
-		}
+        bool regexEval = std::regex_search(channelName.begin(), channelName.end(), match, this->rgx);
+		
+        if (this->operation == keepChannels && regexEval) { // Keep matching channels
+            this->info_.turn_on(c);   //? Tells that channel to turn on.
+        }
+        else if (this->operation == removeChannels && !regexEval) { // keep non matching channels
+            this->info_.turn_on(c);   //? Tells that channel to turn on.
+        }
+        else {  // remove channels if non of the above is true
+            this->info_.turn_off(c);   //? Tells that channel to turn on.
+        }
 	  }
   }
   catch (std::regex_error& e) {
@@ -123,13 +110,13 @@ void RemoveChannels::_validate(bool for_real)
   this->set_out_channels(channels); //? Tells nuke what we changed.
 }
 
-void RemoveChannels::knobs(Knob_Callback f)
+void RemoveChannels::knobs(Knob_Callback callback)
 {
-    Enumeration_knob(f, &operation, enums, "operation", "Operation");
-    Tooltip(f, "Remove:\tthe named channels are deleted\n\n"
+    Enumeration_knob(callback, &operation, labels, "operation", "Operation");
+    Tooltip(callback, "Remove:\tthe named channels are deleted\n\n"
                "Keep:\tall but the named channels are deleted");
-    String_knob(f, &_message, "regular_expression", "Regular Expression");
-    Tooltip(f, "This regular expression will be computed against each channel in the scene. "
+    String_knob(callback, &_message, "regular_expression", "Regular Expression");
+    Tooltip(callback, "This regular expression will be computed against each channel in the scene. "
                "This is channel's not layers, so you should be expecting rgba.red rgba.blue etc.\n\n"
 			   "The only trick is that you have to double escape your backslashes because C++ "
 			   "will eat them if there is only one slash.");
