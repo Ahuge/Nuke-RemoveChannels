@@ -1,4 +1,5 @@
 #! C:/Program Files/Nuke13.1v3/nuke-13.1.3.dll -nx
+#write_info Write1 file:"" format:"3072 2048 1" chans:":rgba.red:rgba.green:rgba.blue:" framerange:"1 100" fps:"0" colorspace:"default" datatype:"unknown" transfer:"unknown" views:"main" colorManagement:"OCIO"
 version 13.1 v3
 define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
 <layout version="1.0">
@@ -11,7 +12,7 @@ define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
             <split size="3174" stretch="1"/>
             <splitter orientation="2">
                 <split size="1201"/>
-                <dock id="" activePageId="Viewer.1" focus="true">
+                <dock id="" activePageId="Viewer.1">
                     <page id="Viewer.1"/>
                 </dock>
                 <split size="845"/>
@@ -33,7 +34,7 @@ define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
 Root {
  inputs 0
  name D:/Documents/Nuke/Nuke-RemoveChannels/examples/removeChannelsExample.v001.nk
- frame 35
+ frame 45
  format "2048 1556 0 0 2048 1556 1 2K_Super_35(full-ap)"
  proxy_type scale
  proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
@@ -167,7 +168,7 @@ Dot {
  xpos -6
  ypos -153
 }
-set N2823b400 [stack 0]
+set N1f0eb400 [stack 0]
 LayerContactSheet {
  center true
  name LayerContactSheet1
@@ -175,7 +176,7 @@ LayerContactSheet {
  ypos -180
  postage_stamp true
 }
-push $N2823b400
+push $N1f0eb400
 RemoveChannels {
  operation remove
  regular_expression "(lgt_\\w+|rgba)(?:\\.\\w+)"
@@ -191,16 +192,22 @@ Dot {
 LayerContactSheet {
  center true
  name LayerContactSheet2
- selected true
  xpos -303
  ypos -14
  postage_stamp true
 }
+set N1f0ea400 [stack 0]
 Viewer {
- frame 35
  frame_range 1-100
  viewerProcess "sRGB (ACES)"
  name Viewer1
  xpos -45
  ypos 150
+}
+push $N1f0ea400
+Write {
+ name Write1
+ selected true
+ xpos -283
+ ypos 95
 }

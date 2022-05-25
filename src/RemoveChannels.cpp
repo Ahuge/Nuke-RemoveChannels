@@ -92,14 +92,12 @@ void RemoveChannels::_validate(bool for_real)
 
         bool regexEval = std::regex_search(channelName.begin(), channelName.end(), match, this->rgx);
 		
-        if (this->operation == keepChannels && regexEval) { // Keep matching channels
-            this->info_.turn_on(c);   //? Tells that channel to turn on.
-        }
-        else if (this->operation == removeChannels && !regexEval) { // keep non matching channels
-            this->info_.turn_on(c);   //? Tells that channel to turn on.
+        if ((this->operation == removeChannels && regexEval) || (this->operation == keepChannels && !regexEval)) {
+            // if remove channels and regex matches channel name or if keep channels and regex doesnt matches channel name
+            this->info_.turn_off(c);   //? Tells that channel to turn on.
         }
         else {  // remove channels if non of the above is true
-            this->info_.turn_off(c);   //? Tells that channel to turn on.
+            this->info_.turn_on(c);   //? Tells that channel to turn on.
         }
 	  }
   }
