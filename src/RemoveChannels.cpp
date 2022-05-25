@@ -23,8 +23,8 @@ static const char* const HELP = ("Removes color channels from the image based "
 										             "on the regular expression provided.\n\n"
 										             "For a basic description of regular expressions, click this question mark.");
 
-enum operation : int {
-    removeChannels=0, keepChannels=1
+enum operation {
+    removeChannels, keepChannels
 };
 
 static const char* const labels[] = {
