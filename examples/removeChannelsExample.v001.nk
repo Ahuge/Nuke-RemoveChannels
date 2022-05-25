@@ -1,27 +1,27 @@
-#! C:/Program Files/Nuke13.1v2/nuke-13.1.2.dll -nx
-version 13.1 v2
+#! C:/Program Files/Nuke13.1v3/nuke-13.1.3.dll -nx
+version 13.1 v3
 define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
 <layout version="1.0">
-    <window x="3839" y="-7" w="3840" h="2097" maximized="1" screen="2">
+    <window x="0" y="0" w="3837" h="2088" screen="0">
         <splitter orientation="1">
             <split size="40"/>
             <dock id="" hideTitles="1" activePageId="Toolbar.1">
                 <page id="Toolbar.1"/>
             </dock>
-            <split size="1374" stretch="1"/>
+            <split size="3174" stretch="1"/>
             <splitter orientation="2">
-                <split size="968"/>
+                <split size="1201"/>
                 <dock id="" activePageId="Viewer.1">
                     <page id="Viewer.1"/>
                 </dock>
-                <split size="1087"/>
+                <split size="845"/>
                 <dock id="" activePageId="DAG.1" focus="true">
                     <page id="DAG.1"/>
                     <page id="Curve Editor.1"/>
                     <page id="DopeSheet.1"/>
                 </dock>
             </splitter>
-            <split size="2418"/>
+            <split size="615"/>
             <dock id="" activePageId="Properties.1">
                 <page id="Properties.1"/>
                 <page id="uk.co.thefoundry.backgroundrenderview.1"/>
@@ -32,7 +32,7 @@ define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
 }
 Root {
  inputs 0
- name D:/Documents/Nuke/Nuke-RemoveChannels/example/removeChannelsExample.v001.nk
+ name D:/Documents/Nuke/Nuke-RemoveChannels/examples/removeChannelsExample.v001.nk
  frame 45
  format "2048 1556 0 0 2048 1556 1 2K_Super_35(full-ap)"
  proxy_type scale
@@ -158,7 +158,7 @@ ShuffleCopy {
  blue blue
  out dyn_beep
  name ShuffleCopy4
- label "rgba -> lgt_weep"
+ label "rgba -> lgt_beep"
  xpos -40
  ypos -268
 }
@@ -167,7 +167,7 @@ Dot {
  xpos -6
  ypos -153
 }
-set N3b9af800 [stack 0]
+set N89b1b400 [stack 0]
 LayerContactSheet {
  center true
  name LayerContactSheet1
@@ -175,7 +175,7 @@ LayerContactSheet {
  ypos -180
  postage_stamp true
 }
-push $N3b9af800
+push $N89b1b400
 RemoveChannels {
  regular_expression "(lgt_\\w+|rgba)(?:\\.\\w+)"
  name RemoveChannels1
